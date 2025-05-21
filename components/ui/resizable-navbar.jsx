@@ -8,6 +8,7 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 import React, { useRef, useState } from "react";
+import Link from "next/link";
 
 export const Navbar = ({
   children,
@@ -92,7 +93,7 @@ export const NavItems = ({
       )}
     >
       {items.map((item, idx) => (
-        <a
+        <Link
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
           className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
@@ -106,7 +107,7 @@ export const NavItems = ({
             />
           )}
           <span className="relative z-20">{item.name}</span>
-        </a>
+        </Link>
       ))}
     </motion.div>
   );
@@ -197,8 +198,8 @@ export const MobileNavToggle = ({
 
 export const NavbarLogo = () => {
   return (
-    <a
-      href="#"
+    <Link
+      href="/"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
     >
       <img
@@ -209,7 +210,7 @@ export const NavbarLogo = () => {
         height={40}
       />
       <span className="font-medium text-black dark:text-white">Rexite</span>
-    </a>
+    </Link>
   );
 };
 
@@ -233,6 +234,20 @@ export const NavbarButton = ({
       "bg-gradient-to-b from-blue-500 to-blue-700 text-white shadow-[0px_2px_0px_0px_rgba(255,255,255,0.3)_inset]",
   };
 
+  // Use Next.js Link for internal routing
+  if (href && !href.startsWith('http') && !href.startsWith('#')) {
+    return (
+      <Link
+        href={href}
+        className={cn(baseStyles, variantStyles[variant], className)}
+        {...props}
+      >
+        {children}
+      </Link>
+    );
+  }
+
+  // Use regular anchor tag for external links or hash links
   return (
     <Tag
       href={href || undefined}

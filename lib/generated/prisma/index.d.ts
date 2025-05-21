@@ -5938,6 +5938,7 @@ export namespace Prisma {
     jobDescription: string | null
     companyName: string | null
     jobTitle: string | null
+    status: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5949,6 +5950,7 @@ export namespace Prisma {
     jobDescription: string | null
     companyName: string | null
     jobTitle: string | null
+    status: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5960,8 +5962,10 @@ export namespace Prisma {
     jobDescription: number
     companyName: number
     jobTitle: number
+    status: number
     createdAt: number
     updatedAt: number
+    skills: number
     _all: number
   }
 
@@ -5973,6 +5977,7 @@ export namespace Prisma {
     jobDescription?: true
     companyName?: true
     jobTitle?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5984,6 +5989,7 @@ export namespace Prisma {
     jobDescription?: true
     companyName?: true
     jobTitle?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5995,8 +6001,10 @@ export namespace Prisma {
     jobDescription?: true
     companyName?: true
     jobTitle?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
+    skills?: true
     _all?: true
   }
 
@@ -6079,8 +6087,10 @@ export namespace Prisma {
     jobDescription: string | null
     companyName: string | null
     jobTitle: string | null
+    status: string | null
     createdAt: Date
     updatedAt: Date
+    skills: string[]
     _count: CoverLetterCountAggregateOutputType | null
     _min: CoverLetterMinAggregateOutputType | null
     _max: CoverLetterMaxAggregateOutputType | null
@@ -6107,8 +6117,10 @@ export namespace Prisma {
     jobDescription?: boolean
     companyName?: boolean
     jobTitle?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    skills?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["coverLetter"]>
 
@@ -6119,8 +6131,10 @@ export namespace Prisma {
     jobDescription?: boolean
     companyName?: boolean
     jobTitle?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    skills?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["coverLetter"]>
 
@@ -6131,8 +6145,10 @@ export namespace Prisma {
     jobDescription?: boolean
     companyName?: boolean
     jobTitle?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    skills?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["coverLetter"]>
 
@@ -6143,11 +6159,13 @@ export namespace Prisma {
     jobDescription?: boolean
     companyName?: boolean
     jobTitle?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    skills?: boolean
   }
 
-  export type CoverLetterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "content" | "jobDescription" | "companyName" | "jobTitle" | "createdAt" | "updatedAt", ExtArgs["result"]["coverLetter"]>
+  export type CoverLetterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "content" | "jobDescription" | "companyName" | "jobTitle" | "status" | "createdAt" | "updatedAt" | "skills", ExtArgs["result"]["coverLetter"]>
   export type CoverLetterInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -6170,8 +6188,10 @@ export namespace Prisma {
       jobDescription: string | null
       companyName: string | null
       jobTitle: string | null
+      status: string | null
       createdAt: Date
       updatedAt: Date
+      skills: string[]
     }, ExtArgs["result"]["coverLetter"]>
     composites: {}
   }
@@ -6602,8 +6622,10 @@ export namespace Prisma {
     readonly jobDescription: FieldRef<"CoverLetter", 'String'>
     readonly companyName: FieldRef<"CoverLetter", 'String'>
     readonly jobTitle: FieldRef<"CoverLetter", 'String'>
+    readonly status: FieldRef<"CoverLetter", 'String'>
     readonly createdAt: FieldRef<"CoverLetter", 'DateTime'>
     readonly updatedAt: FieldRef<"CoverLetter", 'DateTime'>
+    readonly skills: FieldRef<"CoverLetter", 'String[]'>
   }
     
 
@@ -7098,8 +7120,10 @@ export namespace Prisma {
     jobDescription: 'jobDescription',
     companyName: 'companyName',
     jobTitle: 'jobTitle',
+    status: 'status',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    skills: 'skills'
   };
 
   export type CoverLetterScalarFieldEnum = (typeof CoverLetterScalarFieldEnum)[keyof typeof CoverLetterScalarFieldEnum]
@@ -7553,8 +7577,10 @@ export namespace Prisma {
     jobDescription?: StringNullableFilter<"CoverLetter"> | string | null
     companyName?: StringNullableFilter<"CoverLetter"> | string | null
     jobTitle?: StringNullableFilter<"CoverLetter"> | string | null
+    status?: StringNullableFilter<"CoverLetter"> | string | null
     createdAt?: DateTimeFilter<"CoverLetter"> | Date | string
     updatedAt?: DateTimeFilter<"CoverLetter"> | Date | string
+    skills?: StringNullableListFilter<"CoverLetter">
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -7565,8 +7591,10 @@ export namespace Prisma {
     jobDescription?: SortOrderInput | SortOrder
     companyName?: SortOrderInput | SortOrder
     jobTitle?: SortOrderInput | SortOrder
+    status?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    skills?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -7580,8 +7608,10 @@ export namespace Prisma {
     jobDescription?: StringNullableFilter<"CoverLetter"> | string | null
     companyName?: StringNullableFilter<"CoverLetter"> | string | null
     jobTitle?: StringNullableFilter<"CoverLetter"> | string | null
+    status?: StringNullableFilter<"CoverLetter"> | string | null
     createdAt?: DateTimeFilter<"CoverLetter"> | Date | string
     updatedAt?: DateTimeFilter<"CoverLetter"> | Date | string
+    skills?: StringNullableListFilter<"CoverLetter">
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
@@ -7592,8 +7622,10 @@ export namespace Prisma {
     jobDescription?: SortOrderInput | SortOrder
     companyName?: SortOrderInput | SortOrder
     jobTitle?: SortOrderInput | SortOrder
+    status?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    skills?: SortOrder
     _count?: CoverLetterCountOrderByAggregateInput
     _max?: CoverLetterMaxOrderByAggregateInput
     _min?: CoverLetterMinOrderByAggregateInput
@@ -7609,8 +7641,10 @@ export namespace Prisma {
     jobDescription?: StringNullableWithAggregatesFilter<"CoverLetter"> | string | null
     companyName?: StringNullableWithAggregatesFilter<"CoverLetter"> | string | null
     jobTitle?: StringNullableWithAggregatesFilter<"CoverLetter"> | string | null
+    status?: StringNullableWithAggregatesFilter<"CoverLetter"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"CoverLetter"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"CoverLetter"> | Date | string
+    skills?: StringNullableListFilter<"CoverLetter">
   }
 
   export type UserCreateInput = {
@@ -7961,8 +7995,10 @@ export namespace Prisma {
     jobDescription?: string | null
     companyName?: string | null
     jobTitle?: string | null
+    status?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    skills?: CoverLetterCreateskillsInput | string[]
     user: UserCreateNestedOneWithoutCoverLetterInput
   }
 
@@ -7973,8 +8009,10 @@ export namespace Prisma {
     jobDescription?: string | null
     companyName?: string | null
     jobTitle?: string | null
+    status?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    skills?: CoverLetterCreateskillsInput | string[]
   }
 
   export type CoverLetterUpdateInput = {
@@ -7983,8 +8021,10 @@ export namespace Prisma {
     jobDescription?: NullableStringFieldUpdateOperationsInput | string | null
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     jobTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skills?: CoverLetterUpdateskillsInput | string[]
     user?: UserUpdateOneRequiredWithoutCoverLetterNestedInput
   }
 
@@ -7995,8 +8035,10 @@ export namespace Prisma {
     jobDescription?: NullableStringFieldUpdateOperationsInput | string | null
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     jobTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skills?: CoverLetterUpdateskillsInput | string[]
   }
 
   export type CoverLetterCreateManyInput = {
@@ -8006,8 +8048,10 @@ export namespace Prisma {
     jobDescription?: string | null
     companyName?: string | null
     jobTitle?: string | null
+    status?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    skills?: CoverLetterCreateskillsInput | string[]
   }
 
   export type CoverLetterUpdateManyMutationInput = {
@@ -8016,8 +8060,10 @@ export namespace Prisma {
     jobDescription?: NullableStringFieldUpdateOperationsInput | string | null
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     jobTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skills?: CoverLetterUpdateskillsInput | string[]
   }
 
   export type CoverLetterUncheckedUpdateManyInput = {
@@ -8027,8 +8073,10 @@ export namespace Prisma {
     jobDescription?: NullableStringFieldUpdateOperationsInput | string | null
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     jobTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skills?: CoverLetterUpdateskillsInput | string[]
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -8409,8 +8457,10 @@ export namespace Prisma {
     jobDescription?: SortOrder
     companyName?: SortOrder
     jobTitle?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    skills?: SortOrder
   }
 
   export type CoverLetterMaxOrderByAggregateInput = {
@@ -8420,6 +8470,7 @@ export namespace Prisma {
     jobDescription?: SortOrder
     companyName?: SortOrder
     jobTitle?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8431,6 +8482,7 @@ export namespace Prisma {
     jobDescription?: SortOrder
     companyName?: SortOrder
     jobTitle?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8710,10 +8762,19 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAssessmentsInput, UserUpdateWithoutAssessmentsInput>, UserUncheckedUpdateWithoutAssessmentsInput>
   }
 
+  export type CoverLetterCreateskillsInput = {
+    set: string[]
+  }
+
   export type UserCreateNestedOneWithoutCoverLetterInput = {
     create?: XOR<UserCreateWithoutCoverLetterInput, UserUncheckedCreateWithoutCoverLetterInput>
     connectOrCreate?: UserCreateOrConnectWithoutCoverLetterInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type CoverLetterUpdateskillsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type UserUpdateOneRequiredWithoutCoverLetterNestedInput = {
@@ -8982,8 +9043,10 @@ export namespace Prisma {
     jobDescription?: string | null
     companyName?: string | null
     jobTitle?: string | null
+    status?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    skills?: CoverLetterCreateskillsInput | string[]
   }
 
   export type CoverLetterUncheckedCreateWithoutUserInput = {
@@ -8992,8 +9055,10 @@ export namespace Prisma {
     jobDescription?: string | null
     companyName?: string | null
     jobTitle?: string | null
+    status?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    skills?: CoverLetterCreateskillsInput | string[]
   }
 
   export type CoverLetterCreateOrConnectWithoutUserInput = {
@@ -9126,8 +9191,10 @@ export namespace Prisma {
     jobDescription?: StringNullableFilter<"CoverLetter"> | string | null
     companyName?: StringNullableFilter<"CoverLetter"> | string | null
     jobTitle?: StringNullableFilter<"CoverLetter"> | string | null
+    status?: StringNullableFilter<"CoverLetter"> | string | null
     createdAt?: DateTimeFilter<"CoverLetter"> | Date | string
     updatedAt?: DateTimeFilter<"CoverLetter"> | Date | string
+    skills?: StringNullableListFilter<"CoverLetter">
   }
 
   export type UserCreateWithoutResumeInput = {
@@ -9461,8 +9528,10 @@ export namespace Prisma {
     jobDescription?: string | null
     companyName?: string | null
     jobTitle?: string | null
+    status?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    skills?: CoverLetterCreateskillsInput | string[]
   }
 
   export type AssessmentUpdateWithoutUserInput = {
@@ -9501,8 +9570,10 @@ export namespace Prisma {
     jobDescription?: NullableStringFieldUpdateOperationsInput | string | null
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     jobTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skills?: CoverLetterUpdateskillsInput | string[]
   }
 
   export type CoverLetterUncheckedUpdateWithoutUserInput = {
@@ -9511,8 +9582,10 @@ export namespace Prisma {
     jobDescription?: NullableStringFieldUpdateOperationsInput | string | null
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     jobTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skills?: CoverLetterUpdateskillsInput | string[]
   }
 
   export type CoverLetterUncheckedUpdateManyWithoutUserInput = {
@@ -9521,8 +9594,10 @@ export namespace Prisma {
     jobDescription?: NullableStringFieldUpdateOperationsInput | string | null
     companyName?: NullableStringFieldUpdateOperationsInput | string | null
     jobTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skills?: CoverLetterUpdateskillsInput | string[]
   }
 
   export type UserCreateManyIndustryInsightsInput = {

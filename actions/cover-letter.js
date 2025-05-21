@@ -21,11 +21,10 @@ export async function generateCoverLetter(data) {
     Write a professional cover letter for a ${data.jobTitle} position at ${
         data.companyName
     }.
-    
-    About the candidate:
+      About the candidate:
     - Industry: ${user.industry}
     - Years of Experience: ${user.experience}
-    - Skills: ${user.skills?.join(", ")}
+    - Skills: ${user.skills || ""}
     - Professional Background: ${user.bio}
     
     Job Description:
