@@ -102,8 +102,10 @@ model CoverLetter {
   jobDescription String? // Job description for the cover letter
   companyName    String? // Company name for the cover letter
   jobTitle       String? // Job title for the cover letter
+  status         String? // Status of the cover letter (e.g., "completed", "draft", "pending")
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+  skills         String[]
 
   @@index([userId])
 }

@@ -47,7 +47,7 @@ export default function RootLayout({ children }) {
             </main>
             <Toaster />
             <FloatingBar/>
-             {/*<AuthedFloatingBar /> */}
+             <AuthedFloatingBar />
         </ThemeProvider>
       </body>
     </html>

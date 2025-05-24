@@ -13,7 +13,6 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import MDEditor from "@uiw/react-md-editor";
-import html2pdf from 'html2pdf.js';
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
@@ -117,17 +116,42 @@ export default function ResumeBuilder({ initialContent }) {
       setIsGenerating(true);
       try {
         const element = document.getElementById("resume-pdf");
+        
+        // Create a clean clone with simplified styling to avoid oklch color issues
+        const clone = element.cloneNode(true);
+        const styleEl = document.createElement('style');
+        styleEl.innerHTML = `
+          * {
+            color: black !important;
+            background: white !important;
+            font-family: Arial, sans-serif !important;
+            border-color: #ddd !important;
+          }
+          a { color: #0000EE !important; }
+          h1, h2, h3, h4, h5, h6 { color: #333 !important; }
+        `;
+        clone.appendChild(styleEl);
+        
+        // Apply clone to body temporarily
+        document.body.appendChild(clone);
+        
         const opt = {
           margin: [15, 15],
           filename: "resume.pdf",
           image: { type: "jpeg", quality: 0.98 },
-          html2canvas: { scale: 2 },
+          html2canvas: { scale: 2, useCORS: true },
           jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
         };
 
-        await html2pdf().set(opt).from(element).save();
+        // Dynamically import html2pdf.js
+        const html2pdf = (await import('html2pdf.js')).default;
+        await html2pdf().set(opt).from(clone).save();
+        
+        // Clean up
+        document.body.removeChild(clone);
       } catch (error) {
         console.error("PDF generation error:", error);
+        toast.error("Failed to generate PDF. Please try again.");
       } finally {
         setIsGenerating(false);
       }
@@ -403,12 +427,16 @@ export default function ResumeBuilder({ initialContent }) {
               />
             </div>
             <div className="hidden">
-              <div id="resume-pdf">
+              <div id="resume-pdf" className="pdf-content p-8">
                 <MDEditor.Markdown
                   source={previewContent}
                   style={{
+                    padding: "20px",
+                    maxWidth: "800px",
+                    margin: "0 auto",
                     background: "white",
                     color: "black",
+                    fontFamily: "Arial, sans-serif"
                   }}
                 />
               </div>

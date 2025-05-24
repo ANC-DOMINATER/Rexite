@@ -12,6 +12,40 @@ import {ImproveWithAI} from "@/actions/resume";
 import {toast} from "sonner";
 import {format, parse} from "date-fns";
 
+// Add CSS for date inputs
+const dateInputStyles = `
+  .date-input {
+    cursor: pointer !important;
+    padding-right: 30px !important;
+    position: relative !important;
+  }
+  
+  .date-input::-webkit-calendar-picker-indicator {
+    opacity: 1 !important;
+    cursor: pointer !important;
+    position: absolute !important;
+    right: 8px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 !important;
+    z-index: 1 !important;
+    background-color: transparent !important;
+  }
+  
+  input[type="month"] {
+    appearance: auto !important;
+    -webkit-appearance: auto !important;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .date-input::-webkit-calendar-picker-indicator {
+      filter: invert(1) !important;
+    }
+  }
+`;
+
 const formatDisplayDate = (dateString) => {
     if (!dateString) return "";
     const date = parse(dateString, "yyyy-MM", new Date());
@@ -81,6 +115,9 @@ export function EntryForm({ type, entries, onChange }) {
     // Replace handleImproveDescription with this
     const handleImproveDescription = async () => {
         const description = watch("description");
+        const title = watch("title");
+        const organization = watch("organization");
+        
         if (!description) {
             toast.error("Please enter a description first");
             return;
@@ -89,11 +126,33 @@ export function EntryForm({ type, entries, onChange }) {
         await improveWithAIFn({
             current: description,
             type: type.toLowerCase(), // 'experience', 'education', or 'project'
+            context: {
+                title,
+                organization,
+                entryType: type
+            }
         });
+    };
+
+    const handleDateClick = (e) => {
+        // Force open the date picker when clicking anywhere on the input
+        if (e.target.type === 'month') {
+            // Create a MouseEvent for click
+            const clickEvent = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: true
+            });
+            
+            // Find and click the calendar picker
+            const picker = e.target.querySelector('::-webkit-calendar-picker-indicator') || e.target;
+            picker.dispatchEvent(clickEvent);
+        }
     };
 
     return (
         <div className="space-y-4">
+            <style dangerouslySetInnerHTML={{ __html: dateInputStyles }} />
             <div className="space-y-4">
                 {entries.map((item, index) => (
                     <Card key={index}>
@@ -132,6 +191,7 @@ export function EntryForm({ type, entries, onChange }) {
                     <CardContent className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
+                                <label className="text-sm font-medium">Title/Position</label>
                                 <Input
                                     placeholder="Title/Position"
                                     {...register("title")}
@@ -142,6 +202,7 @@ export function EntryForm({ type, entries, onChange }) {
                                 )}
                             </div>
                             <div className="space-y-2">
+                                <label className="text-sm font-medium">Organization/Company</label>
                                 <Input
                                     placeholder="Organization/Company"
                                     {...register("organization")}
@@ -157,9 +218,12 @@ export function EntryForm({ type, entries, onChange }) {
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
+                                <label className="text-sm font-medium">Start Date</label>
                                 <Input
                                     type="month"
+                                    className="date-input"
                                     {...register("startDate")}
+                                    onClick={handleDateClick}
                                     error={errors.startDate}
                                 />
                                 {errors.startDate && (
@@ -169,9 +233,12 @@ export function EntryForm({ type, entries, onChange }) {
                                 )}
                             </div>
                             <div className="space-y-2">
+                                <label className="text-sm font-medium">End Date</label>
                                 <Input
                                     type="month"
+                                    className="date-input"
                                     {...register("endDate")}
+                                    onClick={handleDateClick}
                                     disabled={current}
                                     error={errors.endDate}
                                 />
@@ -199,6 +266,7 @@ export function EntryForm({ type, entries, onChange }) {
                         </div>
 
                         <div className="space-y-2">
+                            <label className="text-sm font-medium">Description</label>
                             <Textarea
                                 placeholder={`Description of your ${type.toLowerCase()}`}
                                 className="h-32"

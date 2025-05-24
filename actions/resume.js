@@ -60,7 +60,7 @@ export async function getResume(){
     });
 }
 
-export async function ImproveWithAI(type, current){
+export async function ImproveWithAI({ type, current, context }) {
     const {userId} = await auth();
     if(!userId) throw new Error("Unauthorized");
     const user = await db.user.findUnique({
@@ -74,18 +74,26 @@ export async function ImproveWithAI(type, current){
 
     if(!user) throw new Error("User not found");
 
+    // Extract context information
+    const { title = "", organization = "" } = context || {};
+
     const prompt = `
     As an expert resume writer, improve the following ${type} description for a ${user.industry} professional.
-    Make it more impactful, quantifiable, and aligned with industry standards.
+    
+    Entry Details:
+    - Position/Title: ${title}
+    - Organization/Company: ${organization}
+    
     Current content: "${current}"
 
     Requirements:
-    1. Use action verbs
+    1. Use powerful action verbs specific to this role
     2. Include metrics and results where possible
     3. Highlight relevant technical skills
     4. Keep it concise but detailed
     5. Focus on achievements over responsibilities
-    6. Use industry-specific keywords
+    6. Use industry-specific keywords relevant to ${user.industry}
+    7. Make this unique and personalized to the specific role at ${organization}
 
     Format the response as a single paragraph without any additional text or explanations.
   `;
