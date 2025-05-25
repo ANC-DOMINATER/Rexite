@@ -37,7 +37,7 @@ export default function FloatingBar() {
     },
      {
       title: "Rexite(Alpha)",
-      href: "/Rexite-ai",
+      href: "/rexite-ai",
       icon: <Crown className="h-full w-full text-neutral-500 dark:text-neutral-400" />,
     },
   ];

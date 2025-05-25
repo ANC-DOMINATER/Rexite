@@ -1,10 +1,11 @@
 import React from 'react'
+import InterviewPage from '@/components/Agent/interview-page';
 
 function Rexite() {
     return (
-        <div>
-            hey this is Rexite page
-        </div>
+        <>
+           <InterviewPage />
+        </>
     )
 }
 

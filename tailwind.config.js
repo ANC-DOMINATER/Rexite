@@ -11,6 +11,26 @@ export default {
             colors: {
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',
+                success: {
+                    '100': '#4CAF50', // Green color for success
+                    '200': '#388E3C', // Darker green for hover/active states
+                    DEFAULT: '#2E7D32', // Default success color
+                },
+
+                primary: {
+                    '100': '#6366F1', // Light primary color
+                    '200': '#4F46E5', // Medium primary color
+                    DEFAULT: 'hsl(var(--primary))',
+                    foreground: 'hsl(var(--primary-foreground))'
+                },
+
+
+                dark: {
+                    '100': '#1F2937', // Light dark color
+                    '200': '#111827', // Darker dark color
+                    DEFAULT: '#030712', // Default dark color
+                },
+
                 card: {
                     DEFAULT: 'hsl(var(--card))',
                     foreground: 'hsl(var(--card-foreground))'
@@ -18,10 +38,6 @@ export default {
                 popover: {
                     DEFAULT: 'hsl(var(--popover))',
                     foreground: 'hsl(var(--popover-foreground))'
-                },
-                primary: {
-                    DEFAULT: 'hsl(var(--primary))',
-                    foreground: 'hsl(var(--primary-foreground))'
                 },
                 secondary: {
                     DEFAULT: 'hsl(var(--secondary))',

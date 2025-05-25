@@ -6,7 +6,7 @@ import FloatingBar from '@/components/Home/floating-bar';
 export default function AuthedFloatingBar() {
     return (
         <SignedIn>
-            {/*<FloatingBar />*/}
+            <FloatingBar />
         </SignedIn>
     );
 }
