@@ -12,7 +12,7 @@ export default function FloatingBar() {
     },
     {
       title: "About Developer",
-      href: "/about",
+      href: "https://github.com/ANC-DOMINATER",
       icon: <IconInfoCircle className="h-full w-full text-neutral-500 dark:text-neutral-400" />,
     },
     {

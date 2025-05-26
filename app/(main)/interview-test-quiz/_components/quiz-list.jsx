@@ -58,11 +58,9 @@ function QuizList({ assessments }) {
                         ))}
                     </div>
                 </CardContent>
-            </Card>
-
-            {/* Dialog */}
-            <Dialog open={!!selectedQuiz} onOpenChange={() => setSelectedQuiz(null)}>
-                <DialogContent className="w-[400px] max-w-[400px] max-h-[90vh] overflow-y-auto">
+            </Card>           
+              <Dialog open={!!selectedQuiz} onOpenChange={() => setSelectedQuiz(null)}>
+                <DialogContent className="w-[95vw] !max-w-6xl sm:!max-w-6xl max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
                         <DialogTitle></DialogTitle>
                     </DialogHeader>
