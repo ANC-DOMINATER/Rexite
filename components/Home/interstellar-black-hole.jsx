@@ -151,7 +151,7 @@ export default function InterstellarBlackHole() {
             lerp(u, grad(permutation[A], x, y), grad(permutation[B], x - 1, y)),
             lerp(u, grad(permutation[A + 1], x, y - 1), grad(permutation[B + 1], x - 1, y - 1)),
           ) *
-            0.5 +
+          0.5 +
           0.5
         )
       }
@@ -162,7 +162,7 @@ export default function InterstellarBlackHole() {
     const animate = (timestamp) => {
       // Record frame for performance monitoring
       recordFrame()
-      
+
       // Skip animation if not visible (performance optimization)
       if (!isVisible) {
         animationRef.current = requestAnimationFrame(animate)
@@ -747,9 +747,8 @@ export default function InterstellarBlackHole() {
 
             // Add subtle color variations to some particles
             if (particle.hue !== 0) {
-              ctx.strokeStyle = `hsla(${220 + particle.hue}, 70%, ${80 + proximityBrightness * 20}%, ${
-                opacity + proximityBrightness * 0.3
-              })`
+              ctx.strokeStyle = `hsla(${220 + particle.hue}, 70%, ${80 + proximityBrightness * 20}%, ${opacity + proximityBrightness * 0.3
+                })`
             } else {
               ctx.strokeStyle = `rgba(${255}, ${255}, ${255}, ${opacity + proximityBrightness * 0.3})`
             }
@@ -788,7 +787,7 @@ export default function InterstellarBlackHole() {
             }
           }
         })
-      },      { threshold: 0.1, rootMargin: "100px" },
+      }, { threshold: 0.1, rootMargin: "100px" },
     )
 
     if (canvas) {
@@ -800,7 +799,7 @@ export default function InterstellarBlackHole() {
     return () => {
       cancelAnimationFrame(animationRef.current)
       observer.disconnect()
-      
+
       // Memory cleanup
       cleanupArray(backgroundStars)
       cleanupArray(stars)

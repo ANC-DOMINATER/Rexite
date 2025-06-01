@@ -24,7 +24,7 @@ const FloatingDockMobile = ({
 }) => {
   const [open, setOpen] = useState(false);
   const optimization = useMobileOptimization();
-  
+
   return (
     <div className={cn("relative block md:hidden", className)}>
       <AnimatePresence>
@@ -48,7 +48,7 @@ const FloatingDockMobile = ({
                     duration: optimization.enableComplexAnimations ? 0.2 : 0.1,
                   },
                 }}
-                transition={{ 
+                transition={{
                   delay: optimization.enableComplexAnimations ? (items.length - 1 - idx) * 0.05 : 0,
                   duration: optimization.enableComplexAnimations ? 0.2 : 0.1,
                 }}>
@@ -78,7 +78,7 @@ const FloatingDockDesktop = ({
 }) => {
   let mouseX = useMotionValue(Infinity);
   const optimization = useMobileOptimization();
-  
+
   return (
     <motion.div
       onMouseMove={(e) => mouseX.set(e.pageX)}
@@ -88,11 +88,11 @@ const FloatingDockDesktop = ({
         className
       )}>
       {items.map((item) => (
-        <IconContainer 
-          mouseX={mouseX} 
-          key={item.title} 
+        <IconContainer
+          mouseX={mouseX}
+          key={item.title}
           optimization={optimization}
-          {...item} 
+          {...item}
         />
       ))}
     </motion.div>
@@ -114,7 +114,7 @@ function IconContainer({
   });
 
   // Optimize spring animations for mobile performance
-  const springConfig = optimization.enableComplexAnimations 
+  const springConfig = optimization.enableComplexAnimations
     ? { mass: 0.1, stiffness: 150, damping: 12 }
     : { mass: 0.2, stiffness: 200, damping: 20 }; // Faster, less bouncy for mobile
 

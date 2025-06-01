@@ -38,7 +38,7 @@ export default function SpaceHeroSection() {
     if (!ctx) return
 
     // Set canvas dimensions - handled by useResponsiveCanvas hook
-    
+
     // Create stars with mobile optimization
     const stars = []
     const createStars = () => {
@@ -156,10 +156,10 @@ export default function SpaceHeroSection() {
             animate={optimization.enableComplexAnimations ? {
               rotate: [0, 15, 0],
             } : {}}
-            transition={{ 
-              duration: optimization.enableComplexAnimations ? 10 : 0, 
-              ease: "easeInOut", 
-              repeat: optimization.enableComplexAnimations ? Number.POSITIVE_INFINITY : 0 
+            transition={{
+              duration: optimization.enableComplexAnimations ? 10 : 0,
+              ease: "easeInOut",
+              repeat: optimization.enableComplexAnimations ? Number.POSITIVE_INFINITY : 0
             }}
           />
         </motion.div>
@@ -228,7 +228,7 @@ export default function SpaceHeroSection() {
         >
           {distantStars.map((star) => (
             <motion.div
-              key={star.key}              className="absolute rounded-full bg-white"
+              key={star.key} className="absolute rounded-full bg-white"
               style={{
                 width: `${star.width}px`,
                 height: `${star.height}px`,
