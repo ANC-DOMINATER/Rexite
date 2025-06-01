@@ -1,5 +1,4 @@
 import {z} from "zod";
-import * as path from "node:path";
 
 export const onboardingSchema = z.object({
     industry: z.string({
