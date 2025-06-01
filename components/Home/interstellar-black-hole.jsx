@@ -1,16 +1,19 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { useMobileOptimization, useResponsiveCanvas, useFrameThrottle, useMemoryOptimization, usePerformanceMonitor } from "@/hooks/use-mobile-optimization"
 
 export default function InterstellarBlackHole() {
   const canvasRef = useRef(null)
   const animationRef = useRef(0)
   const [isVisible, setIsVisible] = useState(true)
-  const fpsInterval = useRef(1000 / 30) // Target 30 FPS
+  const { dimensions, optimization } = useResponsiveCanvas(canvasRef)
+  const { frameInterval, shouldSkipFrame } = useFrameThrottle(optimization.frameRate)
+  const { cleanupArray, cleanupCanvas } = useMemoryOptimization()
+  const { recordFrame } = usePerformanceMonitor()
   const lastFrameTime = useRef(0)
   const lastFlareTime = useRef(0)
   const lastMajorFlareTime = useRef(0) // Track time of last major flare event
-
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -18,45 +21,29 @@ export default function InterstellarBlackHole() {
     const ctx = canvas.getContext("2d")
     if (!ctx) return
 
-    // Set canvas to full width/height and handle high DPI screens
-    const handleResize = () => {
-      const { innerWidth, innerHeight, devicePixelRatio } = window
+    // Canvas dimensions are handled by useResponsiveCanvas hook
 
-      // Use a lower resolution for high DPI screens to improve performance
-      const scaleFactor = devicePixelRatio > 1 ? 1.5 : devicePixelRatio
-
-      canvas.width = innerWidth * scaleFactor
-      canvas.height = innerHeight * scaleFactor
-      canvas.style.width = `${innerWidth}px`
-      canvas.style.height = `${innerHeight}px`
-
-      ctx.scale(scaleFactor, scaleFactor)
-    }
-
-    window.addEventListener("resize", handleResize)
-    handleResize()
-
-    // Create background stars for gravitational lensing effect
+    // Create background stars for gravitational lensing effect (optimized count)
     const backgroundStars = []
-    for (let i = 0; i < 300; i++) {
+    const backgroundStarCount = optimization.isMobile ? 100 : optimization.isLowPerformance ? 50 : 300
+    for (let i = 0; i < backgroundStarCount; i++) {
       backgroundStars.push({
-        x: (Math.random() * canvas.width) / devicePixelRatio,
-        y: (Math.random() * canvas.height) / devicePixelRatio,
+        x: (Math.random() * canvas.width) / optimization.devicePixelRatio,
+        y: (Math.random() * canvas.height) / optimization.devicePixelRatio,
         size: Math.random() * 1.2 + 0.3,
         opacity: Math.random() * 0.7 + 0.1,
         pulseSpeed: Math.random() * 0.002 + 0.001,
         pulseOffset: Math.random() * Math.PI * 2,
-        originalX: (Math.random() * canvas.width) / devicePixelRatio,
-        originalY: (Math.random() * canvas.height) / devicePixelRatio,
+        originalX: (Math.random() * canvas.width) / optimization.devicePixelRatio,
+        originalY: (Math.random() * canvas.height) / optimization.devicePixelRatio,
       })
-    }
-
-    // Create stars for the background with parallax effect
+    }    // Create stars for the background with parallax effect (optimized count)
     const stars = []
-    for (let i = 0; i < 200; i++) {
+    const starCount = optimization.isMobile ? 80 : optimization.isLowPerformance ? 40 : 200
+    for (let i = 0; i < starCount; i++) {
       stars.push({
-        x: (Math.random() * canvas.width) / devicePixelRatio,
-        y: (Math.random() * canvas.height) / devicePixelRatio,
+        x: (Math.random() * canvas.width) / optimization.devicePixelRatio,
+        y: (Math.random() * canvas.height) / optimization.devicePixelRatio,
         size: Math.random() * 1.5,
         opacity: Math.random() * 0.8 + 0.2,
         pulseSpeed: Math.random() * 0.002 + 0.001,
@@ -65,34 +52,37 @@ export default function InterstellarBlackHole() {
       })
     }
 
-    // Create light flares for accretion disk
+    // Create light flares for accretion disk (simplified for mobile)
     const flares = []
     const majorFlares = []
 
-    // Create spacetime distortion grid
-    const gridSize = 20
-    const cols = Math.ceil(canvas.width / devicePixelRatio / gridSize)
-    const rows = Math.ceil(canvas.height / devicePixelRatio / gridSize)
+    // Create spacetime distortion grid (simplified for mobile)
+    const gridSize = optimization.isMobile ? 40 : 20
+    const cols = Math.ceil(canvas.width / optimization.devicePixelRatio / gridSize)
+    const rows = Math.ceil(canvas.height / optimization.devicePixelRatio / gridSize)
     const distortionGrid = []
 
-    for (let y = 0; y < rows; y++) {
-      distortionGrid[y] = []
-      for (let x = 0; x < cols; x++) {
-        distortionGrid[y][x] = {
-          x: x * gridSize,
-          y: y * gridSize,
-          originalX: x * gridSize,
-          originalY: y * gridSize,
-          distortionAmount: 0,
+    // Skip distortion grid for low performance devices
+    if (optimization.enableComplexAnimations) {
+      for (let y = 0; y < rows; y++) {
+        distortionGrid[y] = []
+        for (let x = 0; x < cols; x++) {
+          distortionGrid[y][x] = {
+            x: x * gridSize,
+            y: y * gridSize,
+            originalX: x * gridSize,
+            originalY: y * gridSize,
+            distortionAmount: 0,
+          }
         }
       }
     }
 
-    // Create particles for the swirling effect
+    // Create particles for the swirling effect (optimized count)
     const particles = []
-    const blackHoleRadius = (Math.min(canvas.width, canvas.height) * 0.06) / devicePixelRatio
-    const numParticles = 350
-    const numSpirals = 3
+    const blackHoleRadius = (Math.min(canvas.width, canvas.height) * 0.06) / optimization.devicePixelRatio
+    const numParticles = optimization.particleCount
+    const numSpirals = optimization.isMobile ? 2 : 3
 
     for (let spiral = 0; spiral < numSpirals; spiral++) {
       const spiralOffset = (spiral * Math.PI * 2) / numSpirals
@@ -168,23 +158,23 @@ export default function InterstellarBlackHole() {
     })()
 
     let lastTime = 0
-    let time = 0
-
-    // Animation function
+    let time = 0    // Animation function
     const animate = (timestamp) => {
+      // Record frame for performance monitoring
+      recordFrame()
+      
       // Skip animation if not visible (performance optimization)
       if (!isVisible) {
         animationRef.current = requestAnimationFrame(animate)
         return
       }
 
-      // Throttle to target FPS
-      const elapsed = timestamp - lastFrameTime.current
-      if (elapsed < fpsInterval.current) {
+      // Use mobile-optimized frame throttling
+      if (shouldSkipFrame(lastFrameTime.current, timestamp)) {
         animationRef.current = requestAnimationFrame(animate)
         return
       }
-      lastFrameTime.current = timestamp - (elapsed % fpsInterval.current)
+      lastFrameTime.current = timestamp
 
       // Calculate delta time for smooth animation regardless of frame rate
       const deltaTime = timestamp - lastTime
@@ -798,8 +788,7 @@ export default function InterstellarBlackHole() {
             }
           }
         })
-      },
-      { threshold: 0.1, rootMargin: "100px" },
+      },      { threshold: 0.1, rootMargin: "100px" },
     )
 
     if (canvas) {
@@ -809,9 +798,16 @@ export default function InterstellarBlackHole() {
     animationRef.current = requestAnimationFrame(animate)
 
     return () => {
-      window.removeEventListener("resize", handleResize)
       cancelAnimationFrame(animationRef.current)
       observer.disconnect()
+      
+      // Memory cleanup
+      cleanupArray(backgroundStars)
+      cleanupArray(stars)
+      cleanupArray(particles)
+      cleanupArray(flares)
+      cleanupArray(majorFlares)
+      cleanupCanvas(canvasRef)
     }
   }, [isVisible])
 

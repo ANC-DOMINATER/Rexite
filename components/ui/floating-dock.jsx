@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { IconLayoutNavbarCollapse } from "@tabler/icons-react";
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import { useMobileOptimization } from "@/hooks/use-mobile-optimization";
 
 import { useRef, useState } from "react";
 
@@ -22,6 +23,8 @@ const FloatingDockMobile = ({
   className
 }) => {
   const [open, setOpen] = useState(false);
+  const optimization = useMobileOptimization();
+  
   return (
     <div className={cn("relative block md:hidden", className)}>
       <AnimatePresence>
@@ -32,19 +35,23 @@ const FloatingDockMobile = ({
             {items.map((item, idx) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: optimization.enableComplexAnimations ? 10 : 0 }}
                 animate={{
                   opacity: 1,
                   y: 0,
                 }}
                 exit={{
                   opacity: 0,
-                  y: 10,
+                  y: optimization.enableComplexAnimations ? 10 : 0,
                   transition: {
-                    delay: idx * 0.05,
+                    delay: optimization.enableComplexAnimations ? idx * 0.05 : 0,
+                    duration: optimization.enableComplexAnimations ? 0.2 : 0.1,
                   },
                 }}
-                transition={{ delay: (items.length - 1 - idx) * 0.05 }}>
+                transition={{ 
+                  delay: optimization.enableComplexAnimations ? (items.length - 1 - idx) * 0.05 : 0,
+                  duration: optimization.enableComplexAnimations ? 0.2 : 0.1,
+                }}>
                 <a
                   href={item.href}
                   key={item.title}
@@ -70,6 +77,8 @@ const FloatingDockDesktop = ({
   className
 }) => {
   let mouseX = useMotionValue(Infinity);
+  const optimization = useMobileOptimization();
+  
   return (
     <motion.div
       onMouseMove={(e) => mouseX.set(e.pageX)}
@@ -79,7 +88,12 @@ const FloatingDockDesktop = ({
         className
       )}>
       {items.map((item) => (
-        <IconContainer mouseX={mouseX} key={item.title} {...item} />
+        <IconContainer 
+          mouseX={mouseX} 
+          key={item.title} 
+          optimization={optimization}
+          {...item} 
+        />
       ))}
     </motion.div>
   );
@@ -89,15 +103,20 @@ function IconContainer({
   mouseX,
   title,
   icon,
-  href
+  href,
+  optimization
 }) {
   let ref = useRef(null);
 
   let distance = useTransform(mouseX, (val) => {
     let bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
-
     return val - bounds.x - bounds.width / 2;
   });
+
+  // Optimize spring animations for mobile performance
+  const springConfig = optimization.enableComplexAnimations 
+    ? { mass: 0.1, stiffness: 150, damping: 12 }
+    : { mass: 0.2, stiffness: 200, damping: 20 }; // Faster, less bouncy for mobile
 
   let widthTransform = useTransform(distance, [-150, 0, 150], [40, 80, 40]);
   let heightTransform = useTransform(distance, [-150, 0, 150], [40, 80, 40]);
@@ -105,27 +124,11 @@ function IconContainer({
   let widthTransformIcon = useTransform(distance, [-150, 0, 150], [20, 40, 20]);
   let heightTransformIcon = useTransform(distance, [-150, 0, 150], [20, 40, 20]);
 
-  let width = useSpring(widthTransform, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
-  let height = useSpring(heightTransform, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
+  let width = useSpring(widthTransform, springConfig);
+  let height = useSpring(heightTransform, springConfig);
 
-  let widthIcon = useSpring(widthTransformIcon, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
-  let heightIcon = useSpring(heightTransformIcon, {
-    mass: 0.1,
-    stiffness: 150,
-    damping: 12,
-  });
+  let widthIcon = useSpring(widthTransformIcon, springConfig);
+  let heightIcon = useSpring(heightTransformIcon, springConfig);
 
   const [hovered, setHovered] = useState(false);
 
@@ -138,11 +141,12 @@ function IconContainer({
         onMouseLeave={() => setHovered(false)}
         className="relative flex aspect-square items-center justify-center rounded-full bg-gray-200 dark:bg-neutral-800">
         <AnimatePresence>
-          {hovered && (
+          {hovered && optimization.enableComplexAnimations && (
             <motion.div
               initial={{ opacity: 0, y: 10, x: "-50%" }}
               animate={{ opacity: 1, y: 0, x: "-50%" }}
               exit={{ opacity: 0, y: 2, x: "-50%" }}
+              transition={{ duration: 0.15 }} // Faster transition
               className="absolute -top-8 left-1/2 w-fit rounded-md border border-gray-200 bg-gray-100 px-2 py-0.5 text-xs whitespace-pre text-neutral-700 dark:border-neutral-900 dark:bg-neutral-800 dark:text-white">
               {title}
             </motion.div>
